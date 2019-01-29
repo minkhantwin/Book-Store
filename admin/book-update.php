@@ -1,0 +1,22 @@
+<?php 
+	include("confs/config.php");
+
+	$id=$_POST['id'];
+	$title=$_POST['title'];
+	$author=$_POST['author'];
+	$summary=$_POST['summary'];
+	$price=$_POST['price'];
+	$category_id=$_POST['category_id'];
+
+	$cover=$_FILES['cover']['name'];
+	$tmp=$_FILES['cover']['tmp_name'];
+
+	if($cover){
+		move_uploaded_file($tmp, "cover/$cover");
+		$sql="update books set title='$title',author='$author',summary='$summary',price='$price',category_id='$category_id',cover='$cover',modified_date=now() where id='$id' ";
+	}else{
+		$sql="update books set title='$title',author='$author',summary='$summary',price='$price',category_id='$category_id',modified_date=now() where id='$id' ";
+	}
+	mysqli_query($conn,$sql);
+	header("location:book-list.php");
+?>
